@@ -2,11 +2,11 @@
 use Livewire\Volt\Component;
 new class extends Component
 {
-    public string $message = ''; // [tl! add]
+    public string $message = '';
 }; ?>
 <div>
-    // <!-- [tl! remove] -->
-    <form wire:submit="store"> <!-- [tl! add:start] -->
+
+    <form wire:submit="store">
         <textarea
             wire:model="message"
             placeholder="{{ __('What\'s on your mind?') }}"
@@ -14,5 +14,5 @@ new class extends Component
         ></textarea>
         <x-input-error :messages="$errors->get('message')" class="mt-2" />
         <x-primary-button class="mt-4">{{ __('Chirp') }}</x-primary-button>
-    </form> <!-- [tl! add:end] -->
+    </form>
 </div>

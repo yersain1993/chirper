@@ -8,8 +8,8 @@ class ChirpController extends Controller
      */
     public function index(): View
     {
-        return view('chirps', [// [tl! add:start]
+        return view('chirps', [
             //
-        ]);// [tl! add:end]
+        ]);
     }
 }
