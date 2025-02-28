@@ -1,6 +1,6 @@
 <?php
 
-use App\Models\Chirp; 
+use App\Models\Chirp;
 use Illuminate\Database\Eloquent\Collection;
 use Livewire\Attributes\On;
 use Livewire\Volt\Component;
@@ -9,7 +9,7 @@ new class extends Component {
 
     public Collection $chirps;
   
-    public ?Chirp $editing = null; 
+    public ?Chirp $editing = null;
     public function mount(): void
     {
         $this->getChirps();
@@ -32,10 +32,19 @@ new class extends Component {
     }
 
     #[On('chirp-edit-canceled')]
-    #[On('chirp-updated')] 
+    #[On('chirp-updated')]
     public function disableEditing(): void
     {
         $this->editing = null;
+ 
+        $this->getChirps();
+    }
+
+    public function delete(Chirp $chirp): void
+    {
+        $this->authorize('delete', $chirp);
+ 
+        $chirp->delete();
  
         $this->getChirps();
     }
@@ -70,16 +79,19 @@ new class extends Component {
                                 <x-dropdown-link wire:click="edit({{ $chirp->id }})">
                                     {{ __('Edit') }}
                                 </x-dropdown-link>
+                                <x-dropdown-link wire:click="delete({{ $chirp->id }})" wire:confirm="Are you sure to delete this chirp?">
+                                    {{ __('Delete') }}
+                                </x-dropdown-link>
                             </x-slot>
                         </x-dropdown>
                     @endif
                 </div>
-                @if ($chirp->is($editing)) 
+                @if ($chirp->is($editing))
                     <livewire:chirps.edit :chirp="$chirp" :key="$chirp->id" />
                 @else
                     <p class="mt-4 text-lg text-gray-900">{{ $chirp->message }}</p>
-                @endif 
+                @endif
             </div>
         </div>
-    @endforeach 
+    @endforeach
 </div>
